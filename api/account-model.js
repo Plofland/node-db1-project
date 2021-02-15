@@ -42,6 +42,12 @@ function update(id, info) {
     });
 }
 
-function remove() {
-  return Promise.resolve('remove wired');
+function remove(id) {
+  // return Promise.resolve('remove wired'); <-- testing placeholder
+  return db('accounts')
+    .where('id', id)
+    .del()
+    .then(() => {
+      return db('accounts');
+    });
 }

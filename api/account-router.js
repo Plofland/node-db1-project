@@ -40,7 +40,7 @@ router.get('/', async (req, res, next) => {
 router.get('/:id', checkId, async (req, res, next) => {
   try {
     const { id } = req.params;
-    const data = await accountFunc.get(id);
+    const data = await accountFunc.getById(id);
     res.json(data);
   } catch (error) {
     next(error);
@@ -57,20 +57,26 @@ router.post('/', checkPayload, async (req, res, next) => {
   }
 });
 
-router.put('/:id', checkId, checkPayload, async (req, res, next) => {
-  try {
-    const {id} = req.params
-    const changes = req.body
-    const data = await accountFunc.update(id, changes);
-    res.json(data);
-  } catch (error) {
-    next(error);
+router.put(
+  '/:id',
+  checkId,
+  checkPayload,
+  async (req, res, next) => {
+    try {
+      const { id } = req.params;
+      const changes = req.body;
+      const data = await accountFunc.update(id, changes);
+      res.json(data);
+    } catch (error) {
+      next(error);
+    }
   }
-});
+);
 
 router.delete('/:id', checkId, async (req, res, next) => {
   try {
-    const data = await accountFunc.remove();
+    const { id } = req.params;
+    const data = await accountFunc.remove(id);
     res.json(data);
   } catch (error) {
     next(error);
